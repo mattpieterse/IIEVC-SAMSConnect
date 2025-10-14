@@ -38,12 +38,12 @@
                     Orientation = "Vertical">
                     <Button
                         Content = "Create an Issue Report"
-                        Command = "{Binding NavigateToIssuesViewCommand}"
+                        Command = "{Binding NavigateToIssueViewCommand}"
                         MaxWidth = "200"
                         Style = "{StaticResource BtnStandard}" />
                     <Button
                         Content = "Events &amp; Announcements"
-                        IsEnabled = "False"
+                        Command = "{Binding NavigateToEventViewCommand}"
                         MaxWidth = "200"
                         Margin = "0, 24,0, 24"
                         Style = "{StaticResource BtnStandard}" />

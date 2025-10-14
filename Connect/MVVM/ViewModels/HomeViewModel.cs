@@ -15,5 +15,9 @@ public sealed partial class HomeViewModel(
      * - ToskersCorner (https://www.youtube.com/@ToskersCorner)
      */
     [RelayCommand]
-    private void NavigateToIssuesView() => navigationService.NavigateTo<TicketUpsertViewModel>();
+    private void NavigateToIssueView() => navigationService.NavigateTo<TicketUpsertViewModel>();
+
+
+    [RelayCommand]
+    private void NavigateToEventView() => navigationService.NavigateTo<EventViewModel>();
 }

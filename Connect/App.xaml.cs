@@ -23,6 +23,7 @@ public sealed partial class App
                 .AddSingleton<AppContext>()
                 .AddSingleton<ShellViewModel>()
                 .AddTransient<HomeViewModel>()
+                .AddTransient<EventViewModel>()
                 .AddTransient<TicketUpsertViewModel>()
                 .AddSingleton<NavigationService>()
                 .BuildServiceProvider()

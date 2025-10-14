@@ -39,6 +39,10 @@
             DataType = "{x:Type viewmodels:TicketUpsertViewModel}">
             <views:TicketUpsertView />
         </DataTemplate>
+        <DataTemplate
+            DataType = "{x:Type viewmodels:EventViewModel}">
+            <views:EventView />
+        </DataTemplate>
     </Window.Resources>
 
     <ContentControl
