@@ -27,12 +27,11 @@ IDE. To do so, click the green run icon at the top of the screen.
 
 1. Create/open an empty folder on your local machine to store the project files.
 2. Open a terminal window and navigate to the directory of the folder.
-
-- **Windows:** To do this in an efficient manner, enter the folder in the default file explorer
-  and click on the address bar. Then, type <kbd>C</kbd> <kbd>M</kbd> <kbd>D</kbd> followed
-  by <kbd>Enter</kbd> to directly initialise a Windows terminal at the directory of your folder.
-  This works with PowerShell in the same way. Watch a
-  short [video guide](https://youtu.be/N7IqS3PX3YA?t=80) here.
+    - **Windows:** To do this in an efficient manner, enter the folder in the default file explorer
+     and click on the address bar. Then, type <kbd>C</kbd> <kbd>M</kbd> <kbd>D</kbd> followed
+     by <kbd>Enter</kbd> to directly initialise a Windows terminal at the directory of your folder.
+     This works with PowerShell in the same way. Watch a
+     short [video guide](https://youtu.be/N7IqS3PX3YA?t=80) here.
 
 3. Clone this repository using the following command:
 
@@ -52,7 +51,7 @@ git clone https://github.com/mattpieterse/IIEVC-SAMSConnect
 
 ### Submission 2
 
-> ![Warning]
+> [!WARNING]
 > From this version of the application onwards, it is advisable to run the application on a Windows
 > 11 device. Icons are rendered using a pre-packaged font that may behave unexpectedly on earlier
 > Windows versions.
@@ -64,7 +63,7 @@ send out by the South African Municipal Services in your area. A building icon s
 event, a message icon shows that is an announcement, and you'll find all of the relevant information
 adjacent to this.
 
-We have provided helpful search and filtering methods on the side of this list. You can use all of 
+We have provided helpful search and filtering methods on the side of this list. You can use all of
 these filters at the same time, too! This helps you focus on just what you need to hear. Use the
 dropdown menu to filter to updates from one department, and use the clear button to view all again.
 The date sliders, both inclusive, provide a powerful way to hone in on something you're looking for.
@@ -73,7 +72,7 @@ with all of the options to build powerful custom feeds.
 
 As soon as you use the filters, we use your usage patterns to understand what you want to see. In
 the main list, you'll notice a star appear next to updates from a specific department. This is your
-new recommendation helper! We learn which department you look for the most, and help you spot them 
+new recommendation helper! We learn which department you look for the most, and help you spot them
 in the crowd for your convenience.
 
 Don't forget that you can use the sidebar to navigate around at any time!
