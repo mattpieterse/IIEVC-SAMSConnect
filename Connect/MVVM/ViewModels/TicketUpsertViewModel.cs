@@ -5,18 +5,19 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JetBrains.Annotations;
 using Microsoft.Win32;
+using SAMS.Connect.Core.Data;
 using SAMS.Connect.Core.Models;
 using SAMS.Connect.Core.Services;
 using SAMS.Connect.MVVM.Models;
-using AppContext = SAMS.Connect.Core.Data.AppContext;
+using SAMS.Connect.MVVM.Views;
 using NavigationService = SAMS.Connect.Core.Services.NavigationService;
 
 namespace SAMS.Connect.MVVM.ViewModels;
 
 [UsedImplicitly]
 public sealed partial class TicketUpsertViewModel(
-    NavigationService navigationService,
-    AppContext store
+    FluentNavigationService fluentNavigationService,
+    TicketsStore store
 ) : ObservableObject
 {
 #region Fields
@@ -49,7 +50,7 @@ public sealed partial class TicketUpsertViewModel(
         );
 
         if (confirmed) {
-            navigationService.NavigateTo<HomeViewModel>();
+            await fluentNavigationService.NavigateToAsync<HomeView>();
         }
     }
 
@@ -82,7 +83,7 @@ public sealed partial class TicketUpsertViewModel(
                 message: "Thank you for building building a brighter tomorrow together."
             );
 
-            navigationService.NavigateTo<HomeViewModel>();
+            await fluentNavigationService.NavigateToAsync<HomeView>();
         }
     }
 

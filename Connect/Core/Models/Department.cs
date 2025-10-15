@@ -5,8 +5,12 @@
  */
 public enum Department
 {
-    Sanitation,
-    Electrical,
-    Water,
-    Infrastructure,
+    WaterAndSanitation,
+    Energy,
+    WasteManagement,
+    RoadsAndStormwater,
+    PlanningAndDevelopment,
+    SafetyAndSecurity,
+    CommunityServices,
+    FinanceAndRevenue,
 }

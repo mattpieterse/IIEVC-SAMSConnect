@@ -1,4 +1,4 @@
-﻿<Window
+﻿<ui:FluentWindow
     x:Class = "SAMS.Connect.Shell"
     xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +6,11 @@
     xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels = "clr-namespace:SAMS.Connect.MVVM.ViewModels"
     xmlns:views = "clr-namespace:SAMS.Connect.MVVM.Views"
+    xmlns:ui = "http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:models = "clr-namespace:SAMS.Connect.MVVM.Models"
     d:DataContext = "{d:DesignInstance viewmodels:ShellViewModel}"
+    ui:WindowBackdropType = "Mica"
+    ui:ExtendsContentIntoTitleBar = "True"
     Icon = "../Assets/Icon/appicon.ico"
     mc:Ignorable = "d"
     Title = "SAMS Connect"
@@ -16,32 +20,95 @@
     Height = "800"
     Width = "1252">
 
-    <!-- Nav-Graph -->
-    <!--
-        This serves as the primary navigation graph for the application.
-        Using the singleton instance of the NavigationService, views can request
-        navigation events via relay commands through their ViewModels. When the
-        type of the bound object changes to a mapped ViewModel the corresponding
-        view is loaded in-place within the shell window.
-    -->
-    <!--
-        ATTRIBUTION:
-        SPA navigation using the service and DataTemplates were heavily adapted from GitHub.
-        - https://github.com/vain0x/wpf-navigation-example
-        - vain0x (https://github.com/vain0x)
-    -->
-    <Window.Resources>
-        <DataTemplate
-            DataType = "{x:Type viewmodels:HomeViewModel}">
-            <views:HomeView />
-        </DataTemplate>
-        <DataTemplate
-            DataType = "{x:Type viewmodels:TicketUpsertViewModel}">
-            <views:TicketUpsertView />
-        </DataTemplate>
-    </Window.Resources>
+    <ui:FluentWindow.Resources>
+        <models:InverseBoolConverter
+            x:Key = "InverseBoolConverter" />
+    </ui:FluentWindow.Resources>
 
-    <ContentControl
-        Content = "{Binding NavGraph.CurrentViewModel}" />
+    <!-- UI -->
 
-</Window>
+    <Grid>
+        <ui:NavigationView
+            x:Name = "NavigationView"
+            PaneDisplayMode = "Left"
+            IsBackButtonVisible = "Collapsed"
+            IsPaneToggleVisible = "True"
+            OpenPaneLength = "220"
+            AlwaysShowHeader = "True"
+            TitleBar = "{Binding ElementName=TitleBar, Mode=OneWay}"
+            Transition = "FadeInWithSlide"
+            Loaded = "FrameworkElement_OnLoaded"
+            ScrollViewer.VerticalScrollBarVisibility = "Disabled"
+            ScrollViewer.HorizontalScrollBarVisibility = "Disabled"
+            ScrollViewer.CanContentScroll = "False">
+
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem
+                    x:Name = "Default"
+                    Content = "Home"
+                    Icon = "{ui:SymbolIcon Home24}"
+                    IsEnabled = "{Binding NavigationBlocked, Converter={StaticResource InverseBoolConverter}}"
+                    TargetPageType = "{x:Type views:HomeView}" />
+
+                <ui:NavigationViewItem
+                    Content = "Local Events &amp; Updates"
+                    Icon = "{ui:SymbolIcon Alert24}"
+                    IsEnabled = "{Binding NavigationBlocked, Converter={StaticResource InverseBoolConverter}}"
+                    TargetPageType = "{x:Type views:EventView}" />
+
+                <ui:NavigationViewItem
+                    Content = "Issue Reports"
+                    Icon = "{ui:SymbolIcon Comment24}"
+                    IsExpanded = "True">
+                    <ui:NavigationViewItem.MenuItems>
+                        <ui:NavigationViewItem
+                            ToolTipService.ToolTip = "COMING SOON"
+                            Content = "Track previous claims"
+                            Icon = "{ui:SymbolIcon CalendarRtl24}"
+                            Foreground = "LightGray"
+                            IsEnabled = "False" />
+
+                        <!-- <ui:NavigationViewItem -->
+                        <!--     Content = "Create report" -->
+                        <!--     Icon = "{ui:SymbolIcon AddCircle24}" -->
+                        <!--     IsEnabled = "{Binding NavigationBlocked, Converter={StaticResource InverseBoolConverter}}" -->
+                        <!--     TargetPageType = "{x:Type views:TicketUpsertView}" /> -->
+                    </ui:NavigationViewItem.MenuItems>
+
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.FooterMenuItems>
+                <!-- <ui:NavigationViewItem -->
+                <!--     ToolTipService.ToolTip = "Toggle between light and dark mode" -->
+                <!--     Content = "Theme" -->
+                <!--     Command = "{Binding ToggleAppThemeCommand}" -->
+                <!--     Icon = "{ui:SymbolIcon Color24}" /> -->
+
+                <ui:NavigationViewItem
+                    ToolTipService.ToolTip = "Learn more about the app"
+                    Content = "About"
+                    Command = "{Binding AboutAppDialogCommand}"
+                    Icon = "{ui:SymbolIcon Info24}" />
+            </ui:NavigationView.FooterMenuItems>
+
+            <ui:NavigationView.ContentOverlay>
+                <Grid>
+                    <ui:SnackbarPresenter
+                        x:Name = "Toaster" />
+                </Grid>
+            </ui:NavigationView.ContentOverlay>
+        </ui:NavigationView>
+
+        <ui:TitleBar
+            x:Name = "TitleBar"
+            Title = "SAMS Connect"
+            Grid.Row = "0"
+            CloseWindowByDoubleClickOnIcon = "True">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon
+                    Source = "Assets/Icon/appicon.ico" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
+    </Grid>
+</ui:FluentWindow>

@@ -1,0 +1,276 @@
+<Page
+    x:Class = "SAMS.Connect.MVVM.Views.EventView"
+    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:viewmodels = "clr-namespace:SAMS.Connect.MVVM.ViewModels"
+    xmlns:model = "clr-namespace:SAMS.Connect.MVVM.Models"
+    xmlns:ui = "http://schemas.lepo.co/wpfui/2022/xaml"
+    mc:Ignorable = "d"
+    Title = "Test"
+    ScrollViewer.VerticalScrollBarVisibility = "Disabled"
+    ScrollViewer.HorizontalScrollBarVisibility = "Disabled"
+    ScrollViewer.CanContentScroll = "False"
+    ui:Design.Background = "{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
+    d:DataContext = "{d:DesignInstance viewmodels:EventViewModel}"
+    d:DesignHeight = "800"
+    d:DesignWidth = "1252">
+
+    <!-- UI -->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height = "Auto" />
+            <RowDefinition
+                Height = "*" />
+        </Grid.RowDefinitions>
+
+        <!-- Content -->
+        <Grid
+            Grid.Row = "1"
+            Margin = "24">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height = "Auto" />
+                <RowDefinition
+                    Height = "*" />
+            </Grid.RowDefinitions>
+
+            <!-- -->
+            <Grid
+                Grid.Row = "0">
+                <StackPanel
+                    Orientation = "Vertical">
+                    <ui:TextBlock
+                        Text = "Local Events &amp; Announcements"
+                        FontTypography = "Subtitle" />
+                    <Separator
+                        Margin = "0,6,0,12" />
+                </StackPanel>
+            </Grid>
+
+            <!-- -->
+            <Grid
+                Grid.Row = "1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width = "280" />
+                    <ColumnDefinition
+                        Width = "24" />
+                    <ColumnDefinition
+                        Width = "*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- -->
+                <Border
+                    Padding = "12"
+                    Background = "#FDFDFD"
+                    BorderBrush = "#EAEAEA"
+                    BorderThickness = "1"
+                    CornerRadius = "8"
+                    Grid.Column = "0">
+                    <StackPanel
+                        Orientation = "Vertical">
+                        <Label
+                            Content = "Search within date range" />
+                        <DatePicker
+                            ToolTipService.ToolTip = "From date"
+                            SelectedDate = "{Binding Filter.DateStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsTodayHighlighted = "True"
+                            FirstDayOfWeek = "Monday" />
+
+                        <Separator
+                            Margin = "0,3"
+                            Width = "0" />
+
+                        <DatePicker
+                            ToolTipService.ToolTip = "To date"
+                            SelectedDate = "{Binding Filter.DateFinal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsTodayHighlighted = "True"
+                            FirstDayOfWeek = "Monday" />
+
+                        <Separator
+                            Margin = "0,3"
+                            Width = "0" />
+
+                        <Label
+                            Content = "Category" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width = "*" />
+                                <ColumnDefinition
+                                    Width = "6" />
+                                <ColumnDefinition
+                                    Width = "Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox
+                                Grid.Column = "0"
+                                SelectedItem = "{Binding Filter.Department, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemsSource = "{Binding DepartmentOptions, Mode=OneWay}" />
+
+                            <ui:Button
+                                Grid.Column = "2"
+                                ToolTipService.ToolTip = "Clear category filter"
+                                VerticalAlignment = "Stretch"
+                                Appearance = "Secondary"
+                                Icon = "{ui:SymbolIcon Symbol=ArrowUndo24, FontSize=16}"
+                                Command = "{Binding ClearFilterCategoryCommand}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- -->
+                <Border
+                    Padding = "6"
+                    Background = "#FDFDFD"
+                    BorderBrush = "#EAEAEA"
+                    BorderThickness = "1"
+                    CornerRadius = "8"
+                    Grid.Column = "2">
+                    <ui:ListView
+                        d:ItemsSource = "{d:SampleData ItemCount=2}"
+                        ItemsSource = "{Binding Collection}"
+                        SelectionMode = "Single">
+                        <ScrollViewer.HorizontalScrollBarVisibility>
+                            Disabled
+                        </ScrollViewer.HorizontalScrollBarVisibility>
+                        <ui:ListView.ItemTemplate>
+                            <DataTemplate
+                                DataType = "{x:Type model:LocalUpdateWrapper}">
+                                <Grid
+                                    Margin = "8,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height = "*" />
+                                        <RowDefinition
+                                            Height = "*" />
+                                        <RowDefinition
+                                            Height = "Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                            Width = "Auto" />
+                                        <ColumnDefinition
+                                            Width = "*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid
+                                        Grid.RowSpan = "2"
+                                        Width = "32"
+                                        Height = "32"
+                                        Margin = "0"
+                                        HorizontalAlignment = "Center"
+                                        VerticalAlignment = "Center">
+
+                                        <Ellipse
+                                            Width = "32"
+                                            Height = "32"
+                                            Fill = "LightGray" />
+
+                                        <ui:SymbolIcon
+                                            x:Name = "Icon"
+                                            Symbol = "Alert24"
+                                            FontSize = "16"
+                                            HorizontalAlignment = "Center"
+                                            VerticalAlignment = "Center" />
+
+                                    </Grid>
+
+                                    <TextBlock
+                                        Grid.Row = "0"
+                                        Grid.Column = "1"
+                                        Margin = "12,6,0,0"
+                                        FontWeight = "Bold"
+                                        Text = "{Binding Instance.UpdateHeading, Mode=OneWay}" />
+
+                                    <TextBlock
+                                        Grid.Row = "1"
+                                        Grid.Column = "1"
+                                        Margin = "12,0,0,6"
+                                        Foreground = "{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                        Text = "{Binding Instance.CreatedAtFormatted, Mode=OneWay}" />
+
+                                    <StackPanel
+                                        Grid.Row = "2"
+                                        Grid.Column = "0"
+                                        Grid.ColumnSpan = "2"
+                                        Orientation = "Vertical"
+                                        Margin = "0,4,8,4">
+                                        <StackPanel
+                                            Orientation = "Horizontal">
+                                            <ui:SymbolIcon
+                                                Symbol = "Star24"
+                                                FontSize = "13"
+                                                VerticalAlignment = "Center"
+                                                Margin = "0,0,4,0">
+                                                <ui:SymbolIcon.Style>
+                                                    <Style
+                                                        TargetType = "ui:SymbolIcon">
+                                                        <Setter
+                                                            Property = "Visibility"
+                                                            Value = "Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger
+                                                                Binding = "{Binding IsRecommended}"
+                                                                Value = "True">
+                                                                <Setter
+                                                                    Property = "Visibility"
+                                                                    Value = "Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ui:SymbolIcon.Style>
+                                            </ui:SymbolIcon>
+                                            <ui:TextBlock
+                                                FontSize = "13"
+                                                FontWeight = "SemiBold"
+                                                Text = "{Binding Instance.CategoryFormatted, Mode=OneWay}"
+                                                TextWrapping = "NoWrap"
+                                                TextTrimming = "CharacterEllipsis" />
+                                        </StackPanel>
+
+                                        <Separator
+                                            Margin = "0,3"
+                                            Width = "0" />
+
+                                        <ui:TextBlock
+                                            FontSize = "13"
+                                            Text = "{Binding Instance.UpdateMessage, Mode=OneWay}"
+                                            TextWrapping = "Wrap"
+                                            TextTrimming = "CharacterEllipsis"
+                                            MaxHeight = "100" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger
+                                        Binding = "{Binding Instance.IsEvent}"
+                                        Value = "True">
+                                        <Setter
+                                            TargetName = "Icon"
+                                            Property = "Symbol"
+                                            Value = "{x:Static ui:SymbolRegular.BuildingGovernment24}" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding = "{Binding Instance.IsEvent}"
+                                        Value = "False">
+                                        <Setter
+                                            TargetName = "Icon"
+                                            Property = "Symbol"
+                                            Value = "{x:Static ui:SymbolRegular.Chat24}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ui:ListView.ItemTemplate>
+                    </ui:ListView>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

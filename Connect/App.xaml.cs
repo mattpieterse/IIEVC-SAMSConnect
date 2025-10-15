@@ -2,9 +2,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using SAMS.Connect.Core.Data;
 using SAMS.Connect.MVVM.ViewModels;
 using SAMS.Connect.Core.Services;
-using AppContext = SAMS.Connect.Core.Data.AppContext;
 
 namespace SAMS.Connect;
 
@@ -20,14 +20,17 @@ public sealed partial class App
          */
         Ioc.Default.ConfigureServices(
             new ServiceCollection()
-                .AddSingleton<AppContext>()
+                .AddSingleton<TicketsStore>()
+                .AddSingleton<UpdateStore>()
                 .AddSingleton<ShellViewModel>()
                 .AddTransient<HomeViewModel>()
+                .AddTransient<EventViewModel>()
                 .AddTransient<TicketUpsertViewModel>()
+                .AddSingleton<FluentNavigationService>()
                 .AddSingleton<NavigationService>()
                 .BuildServiceProvider()
         );
-        
+
         new Shell {
             DataContext = Ioc.Default.GetService<ShellViewModel>()
         }.Show();
