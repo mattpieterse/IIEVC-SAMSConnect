@@ -3,7 +3,7 @@ using SAMS.Connect.Core.Models;
 
 namespace SAMS.Connect.Core.Data;
 
-public sealed class AppContext
+public sealed class TicketsStore
     : ObservableObject
 {
 #region Data

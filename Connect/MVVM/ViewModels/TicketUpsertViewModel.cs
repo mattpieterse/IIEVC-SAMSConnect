@@ -5,10 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JetBrains.Annotations;
 using Microsoft.Win32;
+using SAMS.Connect.Core.Data;
 using SAMS.Connect.Core.Models;
 using SAMS.Connect.Core.Services;
 using SAMS.Connect.MVVM.Models;
-using AppContext = SAMS.Connect.Core.Data.AppContext;
 using NavigationService = SAMS.Connect.Core.Services.NavigationService;
 
 namespace SAMS.Connect.MVVM.ViewModels;
@@ -16,7 +16,7 @@ namespace SAMS.Connect.MVVM.ViewModels;
 [UsedImplicitly]
 public sealed partial class TicketUpsertViewModel(
     NavigationService navigationService,
-    AppContext store
+    TicketsStore store
 ) : ObservableObject
 {
 #region Fields

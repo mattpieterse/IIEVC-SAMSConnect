@@ -11,11 +11,11 @@ public sealed partial class LocalUpdate
     private Guid _id = Guid.NewGuid();
 
 
-    [ObservableProperty]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(CreatedAtFormatted))]
     private DateTime _createdAt = DateTime.UtcNow;
 
 
-    [ObservableProperty]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(UpdatedAtFormatted))]
     private DateTime _updatedAt = DateTime.UtcNow;
 
 
@@ -33,6 +33,17 @@ public sealed partial class LocalUpdate
 
     [ObservableProperty]
     private bool _isEvent;
+
+#endregion
+
+#region Extensions
+
+    public string CreatedAtFormatted =>
+        $"{CreatedAt:dd MMMM yyyy} • {CreatedAt:HH:mm}";
+
+
+    public string UpdatedAtFormatted =>
+        $"{UpdatedAt:dd MMMM yyyy} • {UpdatedAt:HH:mm}";
 
 #endregion
 
