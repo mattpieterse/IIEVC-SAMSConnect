@@ -1,17 +1,20 @@
-﻿<UserControl
+﻿<Page
     x:Class = "SAMS.Connect.MVVM.Views.HomeView"
     xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
     xmlns:viewmodels = "clr-namespace:SAMS.Connect.MVVM.ViewModels"
+    xmlns:ui = "http://schemas.lepo.co/wpfui/2022/xaml"
     mc:Ignorable = "d"
+    ui:Design.Background = "{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
     d:DataContext = "{d:DesignInstance viewmodels:HomeViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
 
-    <Grid
-        Background = "{StaticResource Surface}">
+    <Grid>
         <Grid
             Margin = "12">
             <Grid.ColumnDefinitions>
@@ -36,24 +39,30 @@
                     VerticalAlignment = "Center"
                     HorizontalAlignment = "Left"
                     Orientation = "Vertical">
-                    <Button
+                    <ui:Button
                         Content = "Create an Issue Report"
                         Command = "{Binding NavigateToIssueViewCommand}"
-                        MaxWidth = "200"
-                        Style = "{StaticResource BtnStandard}" />
-                    <Button
+                        Width = "200" />
+
+                    <Separator
+                        Margin = "0,6"
+                        Width = "0" />
+
+                    <ui:Button
                         Content = "Events &amp; Announcements"
                         Command = "{Binding NavigateToEventViewCommand}"
-                        MaxWidth = "200"
-                        Margin = "0, 24,0, 24"
-                        Style = "{StaticResource BtnStandard}" />
-                    <Button
+                        Width = "200" />
+
+                    <Separator
+                        Margin = "0,6"
+                        Width = "0" />
+
+                    <ui:Button
                         Content = "Service Request Status"
                         IsEnabled = "False"
-                        MaxWidth = "200"
-                        Style = "{StaticResource BtnStandard}" />
+                        Width = "200" />
                 </StackPanel>
             </Grid>
         </Grid>
     </Grid>
-</UserControl>
+</Page>

@@ -2,13 +2,11 @@ using SAMS.Connect.Core.Models;
 
 namespace SAMS.Connect.MVVM.Models;
 
-public sealed class LocalUpdateWrapper
+public sealed class LocalUpdateWrapper(
+    LocalUpdate instance,
+    bool isRecommended
+)
 {
-    public LocalUpdateWrapper(LocalUpdate instance, bool isRecommended) {
-        Instance = instance;
-        IsRecommended = isRecommended;
-    }
-
-    public LocalUpdate Instance { get; }
-    public bool IsRecommended { get; }
+    public LocalUpdate Instance { get; } = instance;
+    public bool IsRecommended { get; } = isRecommended;
 }

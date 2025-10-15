@@ -78,6 +78,9 @@ public sealed class UpdateStore
 
 #region Dev
 
+    /// <summary>
+    /// NOT IMPORTANT. Generic seeder method for Local DB.
+    /// </summary>
     public void Seed() {
         _collection.Clear();
         var currentTime = DateTime.Parse("2025-10-15 13:18:34Z");

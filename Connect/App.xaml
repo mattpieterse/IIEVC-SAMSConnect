@@ -32,7 +32,8 @@
 
                 <!-- WPF FluentUI -->
 
-                <ui:ThemesDictionary Theme="Light" />
+                <ui:ThemesDictionary
+                    Theme = "Light" />
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

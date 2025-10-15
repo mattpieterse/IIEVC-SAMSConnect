@@ -17,12 +17,12 @@ public sealed class TicketsStore
 
     public void Insert(Ticket instance) {
         instance.StartEntity();
-        
+
         /* Attribution: Add Method (List)
          * - https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.add?view=net-8.0
          */
         _store.Add(instance);
-        
+
         /* Attribution: Sort Method (List)
          * - https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=net-8.0
          */

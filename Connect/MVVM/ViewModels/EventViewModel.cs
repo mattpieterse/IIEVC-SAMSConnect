@@ -56,8 +56,8 @@ public sealed partial class EventViewModel
     private ObservableCollection<LocalUpdateWrapper> _collection = [];
 
 
-    public static ObservableCollection<Department> DepartmentOptions
-        => new(Enum.GetValues(typeof(Department)).Cast<Department>());
+    public ObservableCollection<Department> DepartmentOptions
+        => new(_context.GetAvailableCategories());
 
 #endregion
 
