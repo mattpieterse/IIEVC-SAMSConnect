@@ -10,7 +10,9 @@ public sealed class UpdateStore
 {
 #region Data
 
-    private readonly SortedDictionary<DateTime, LocalUpdate> _collection = [];
+    private readonly SortedDictionary<DateTime, LocalUpdate> _collection =
+        new(Comparer<DateTime>.Create((x, y) => y.CompareTo(x)));
+
     private readonly ConcurrentDictionary<Department, int> _categoryFilterFrequency = [];
     private readonly HashSet<DateTime> _uniqueDates = [];
     private readonly HashSet<Department> _uniqueDepartments = [];
@@ -81,42 +83,123 @@ public sealed class UpdateStore
         var currentTime = DateTime.Parse("2025-10-15 13:18:34Z");
         var sampleUpdates = new[] {
             new LocalUpdate {
-                UpdateHeading = "Power Outage Notice",
-                UpdateCategory = Department.Electrical,
+                UpdateHeading = "Planned Power Interruption: Central District Upgrade",
+                UpdateCategory = Department.Energy,
                 UpdateMessage =
-                    "Attention Central District residents: A **critical, scheduled power interruption** is set for this Friday, October 17th, from 9:00 AM to 3:00 PM. This necessary outage is to facilitate major upgrades to the primary substation infrastructure serving your area. Our **Electrical Department** engineers will be replacing aging transformers and installing smart grid technology to enhance long-term reliability and reduce future unscheduled outages. \n\nPlease be advised that during this six-hour window, all electrical service will be temporarily suspended. We strongly recommend unplugging sensitive electronic equipment beforehand to prevent potential damage when power is restored. Residents requiring life support equipment should ensure backup power systems are operational. \n\nWe apologize for the inconvenience this may cause and appreciate your understanding as we work to modernize our electrical network. The work is crucial for supporting the growing energy demands of the Central District and improving the overall resilience of the municipal power supply. Should the work be completed ahead of schedule, power will be restored immediately, but please plan for the full duration. For further inquiries or emergency contacts during the outage, please consult the dedicated **Electrical Department** hotline listed on the municipal website.",
+                    "Attention Central District residents: A **critical, scheduled power interruption** is set for this Friday, October 17th, from 9:00 AM to 3:00 PM. This necessary outage will facilitate major upgrades to the primary substation infrastructure serving your area. Our **Energy Department** engineers will be replacing aging transformers and installing smart grid technology to enhance long-term reliability and reduce future unscheduled outages. During this six-hour window, all electrical service will be temporarily suspended. We strongly recommend unplugging sensitive electronic equipment beforehand. Residents requiring life support equipment should ensure backup power systems are operational. We apologize for the inconvenience and appreciate your understanding as we work to modernize our electrical network. The work is crucial for supporting the growing energy demands and improving the overall resilience of the municipal power supply. For emergency contacts during the outage, please consult the dedicated Energy Department hotline.",
                 CreatedAt = currentTime.AddDays(-2)
             },
             new LocalUpdate {
-                UpdateHeading = "Community Meeting",
-                UpdateCategory = Department.Infrastructure,
+                UpdateHeading = "Public Town Hall: Roads & Stormwater Capital Plan",
+                UpdateCategory = Department.RoadsAndStormwater,
                 IsEvent = true,
                 UpdateMessage =
-                    "All citizens are invited to attend the **Annual Infrastructure Planning Meeting** this coming Monday, October 20th, at 6:30 PM in the City Hall Auditorium. This is a vital forum where the **Infrastructure Department** will present proposed capital projects for the upcoming fiscal year, covering essential areas like road resurfacing, bridge maintenance, public facility improvements, and long-term development strategies for transportation and utility corridors. \n\nThe agenda includes a presentation on the results of the recent city-wide road quality survey and a detailed look at the new urban green space initiative. Following the presentation, there will be an extensive Q&A session, providing a direct opportunity for residents to voice concerns, suggest modifications to proposed plans, and offer feedback that will directly influence the prioritization of projects. \n\nWe encourage all neighborhood associations, local businesses, and individual property owners to participate. Your **community input is critical** to ensuring that our infrastructure investments are aligned with the actual needs and priorities of the people we serve. Detailed blueprints and project summaries will be available for review at the meeting. Secure your free RSVP through the municipal event portal, and let your voice be heard on the future physical framework of our city.",
+                    "All citizens are invited to attend the **Annual Roads and Stormwater Planning Meeting** this coming Monday, October 20th, at 6:30 PM in the City Hall Auditorium. This vital forum is where the **Roads and Stormwater Department** will present proposed capital projects for the upcoming fiscal year, covering essential areas like road resurfacing, bridge maintenance, and major storm drain expansion projects. The agenda includes a detailed look at the new municipal flood mitigation strategy. Following the presentation, there will be an extensive Q&A session, providing a direct opportunity for residents to voice concerns and offer feedback that will directly influence the prioritization of projects. Your **community input is critical** to ensuring our infrastructure investments are aligned with the actual needs of the people we serve. Detailed project summaries will be available for review at the meeting.",
                 CreatedAt = currentTime.AddDays(5)
             },
             new LocalUpdate {
-                UpdateHeading = "Water Supply Update",
-                UpdateCategory = Department.Water,
+                UpdateHeading = "Western Sector Water Main Repaired Ahead of Schedule",
+                UpdateCategory = Department.WaterAndSanitation,
                 UpdateMessage =
-                    "Excellent news! The emergency **water main repair** initiated yesterday in the **Western Sector** has been successfully completed and tested ahead of the projected timeline. The **Water Department** crews worked tirelessly overnight to fully isolate and replace a critical segment of the aging distribution line that caused the disruption. \n\nAs of 1:00 PM today, full water pressure has been completely restored to all affected residential and commercial properties in the Western Sector. We appreciate the immense patience and cooperation demonstrated by all residents during this necessary repair. \n\nFollowing any major water service interruption, you may notice some temporary cloudiness or discolouration in your tap water due to trapped air or sediment stirring up in the lines. This is typically harmless. We recommend running your cold water tap for a few minutes until it runs clear. If the problem persists past 24 hours, or if you detect an unusual odor, please immediately contact the **Water Department**'s non-emergency line. We are committed to maintaining the highest quality of service and potable water for all citizens. Thank you again for your understanding while our teams ensured the structural integrity and safety of the local water system.",
+                    "Excellent news! The emergency **water main repair** initiated yesterday in the Western Sector has been successfully completed and tested ahead of the projected timeline. The **Water and Sanitation Department** crews worked tirelessly overnight to fully isolate and replace a critical segment of the aging distribution line that caused the disruption. As of 1:00 PM today, full water pressure has been completely restored to all affected properties. We appreciate the immense patience and cooperation demonstrated by all residents during this necessary repair. Following the interruption, you may notice some temporary cloudiness in your tap water due to trapped air or sediment. We recommend running your cold water tap for a few minutes until it runs clear. If the problem persists past 24 hours, please immediately contact our non-emergency line. We are committed to maintaining the highest quality of service and potable water for all citizens.",
                 CreatedAt = currentTime.AddHours(-6)
             },
             new LocalUpdate {
-                UpdateHeading = "Road Closure",
-                UpdateCategory = Department.Sanitation,
-                IsEvent = true,
+                UpdateHeading = "Road Closure: Emergency Waste Removal & Cleanup",
+                UpdateCategory = Department.WasteManagement,
+                IsEvent = true, // Treated as an event-in-progress/closure notice
                 UpdateMessage =
-                    "URGENT PUBLIC SAFETY ALERT: A major section of **Main Street**, between Oak Avenue and Elm Street, is currently closed for all vehicular and pedestrian traffic due to an unforeseen incident requiring immediate **Sanitation Department** response. The closure is effective immediately and is anticipated to last for the next 48 hours. This action is necessary to safely manage and remove a spill of non-hazardous but highly disruptive commercial waste and to conduct emergency repairs to an underlying sewage line potentially damaged by the incident. \n\n**Sanitation Department** crews are on-site with specialized equipment to expedite the clean-up and repair process to restore public access as quickly as possible. All motorists are strongly advised to follow the official detour signs posted at major intersections—alternative routes via Central Boulevard are recommended. Please avoid the area entirely if possible to allow our emergency teams unhindered access to the site. \n\nWe prioritize the health and safety of our community, and this temporary closure is essential to prevent environmental contamination and further infrastructure damage. Regular updates on the progress and estimated time of reopening will be provided via this channel. We apologize for the significant disruption to your daily commute and thank you for your compliance with the temporary closure measures.",
+                    "URGENT PUBLIC SAFETY ALERT: A major section of **Main Street**, between Oak Avenue and Elm Street, is currently closed for all traffic due to an unforeseen incident requiring immediate **Waste Management Department** response. The closure is effective immediately and is anticipated to last for the next 48 hours. This action is necessary to safely manage and remove a spill of disruptive commercial waste and to conduct emergency clean-up operations. **Waste Management Department** crews are on-site with specialized equipment to expedite the process and restore public access as quickly as possible. All motorists are strongly advised to follow the official detour signs posted—alternative routes via Central Boulevard are recommended. We prioritize the health and safety of our community, and this temporary closure is essential to prevent environmental contamination. Regular updates on the progress and estimated time of reopening will be provided via this channel.",
                 CreatedAt = currentTime.AddDays(-1)
             },
             new LocalUpdate {
-                UpdateHeading = "Service Center Opening",
-                UpdateCategory = Department.Water,
+                UpdateHeading = "Grand Opening: New Customer Service Center",
+                UpdateCategory = Department.WaterAndSanitation,
                 IsEvent = true,
                 UpdateMessage =
-                    "Mark your calendars! The **Water Department** is thrilled to announce the official **Grand Opening Ceremony** for our **New Municipal Service Center** this Saturday, October 18th, at 10:00 AM. Located conveniently at 450 City Circle, this modern facility is designed to significantly improve service delivery and accessibility for all water-related citizen needs. \n\nThe new center will feature dedicated stations for customer support, including in-person bill payment, assistance with consumption inquiries, resolution of billing discrepancies, and processing of new service applications and permit requests for major plumbing work. The inaugural event will include a ribbon-cutting ceremony, a brief address from the Mayor and the Director of the **Water Department**, and guided tours of the facility to showcase the technology and resources available to the public. \n\nLight refreshments will be served, and staff will be on hand to answer questions about water conservation programs and the city's future water quality initiatives. This center represents a major investment in public service, aimed at making interactions with the **Water Department** as efficient and transparent as possible. We look forward to welcoming the entire community to this milestone event!",
+                    "Mark your calendars! The **Water and Sanitation Department** is thrilled to announce the official **Grand Opening Ceremony** for our **New Municipal Service Center** this Saturday, October 18th, at 10:00 AM. Located conveniently at 450 City Circle, this modern facility is designed to significantly improve service delivery and accessibility for all water-related citizen needs. The new center will feature dedicated stations for customer support, including in-person bill payment, assistance with consumption inquiries, and processing of new service applications. The inaugural event will include a ribbon-cutting ceremony, an address from the Mayor and the Department Director, and guided tours to showcase the technology. Staff will be on hand to answer questions about water conservation programs and the city's future quality initiatives. This center represents a major investment in public service, making interactions with the department as efficient and transparent as possible. We look forward to welcoming the entire community to this milestone event!",
                 CreatedAt = currentTime.AddDays(2)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Load Shedding Relief Workshop and Q&A",
+                UpdateCategory = Department.Energy,
+                IsEvent = true,
+                UpdateMessage =
+                    "Join the **Energy Department** for a free **Load Shedding Readiness Workshop** next Tuesday, October 21st, at the Municipal Events Hall at 7:00 PM. This essential community session will focus on practical steps residents can take to minimize the impact of rolling blackouts. Topics covered will include the safe use of alternative power sources (inverters, solar panels, and generators), protecting home electronics from power surges, and interpreting the new municipal load shedding schedules. The workshop will feature a presentation by the Chief Engineer, followed by an open Q&A forum. Attendees will receive a printed Load Shedding Survival Guide. We encourage all homeowners and business owners to attend this event to gain vital knowledge and interact directly with the team responsible for managing and distributing our power supply. RSVP is recommended due to limited seating.",
+                CreatedAt = currentTime.AddDays(6)
+            },
+            new LocalUpdate {
+                UpdateHeading = "New Two-Bag Recycling Initiative to Commence",
+                UpdateCategory = Department.WasteManagement,
+                UpdateMessage =
+                    "The **Waste Management Department** is excited to announce the launch of a **new, simplified two-bag recycling system** beginning November 1st. This initiative aims to dramatically increase the city's recycling rate and reduce landfill volume. Every household will receive a free introductory package containing two distinct coloured bags: one for mixed recyclables (paper, plastic, cans) and one for garden/organic waste. Normal refuse collection schedules will remain in place, but the new bags must be placed out separately. Please note that unseparated recyclables will not be collected after the launch date. Detailed instructional pamphlets outlining what can and cannot be placed in each bag are being mailed to all municipal account holders this week. We urge all residents to embrace this change and partner with the **Waste Management Department** to build a cleaner, greener city.",
+                CreatedAt = currentTime.AddDays(-5)
+            },
+            new LocalUpdate {
+                UpdateHeading = "New Metro Police Patrols Launched in Eastern Suburb",
+                UpdateCategory = Department.SafetyAndSecurity,
+                UpdateMessage =
+                    "In response to community feedback, the **Safety and Security Department** is immediately launching enhanced Metro Police visibility patrols across the Eastern Suburbs. This operation involves a dedicated fleet of patrol vehicles and an increased deployment of officers focusing on high-traffic retail areas and residential streets during evening hours. The objective is to proactively deter crime, enforce traffic regulations, and improve overall public safety perception. We remind residents to remain vigilant and report all suspicious activity directly to the Metro Police emergency line rather than non-emergency channels. This initiative forms part of the ongoing commitment by the **Safety and Security Department** to ensure the protection and well-being of all citizens and their property throughout the municipal area. We believe this increased presence will significantly enhance neighbourhood security.",
+                CreatedAt = currentTime.AddDays(-3)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Future City Vision Public Consultation Session",
+                UpdateCategory = Department.PlanningAndDevelopment,
+                IsEvent = true,
+                UpdateMessage =
+                    "The **Planning and Development Department** invites all stakeholders to a crucial public consultation session on the **Draft 2040 Spatial Development Framework**. This is a once-in-a-decade opportunity to shape the future land use, density, and character of our city. The session will be held next Wednesday, October 22nd, at the Municipal Chambers at 5:00 PM. The presentation will cover proposed zoning changes, new requirements for urban infill housing, and strategies for preserving ecological corridors. Community input is essential, as the framework will guide all development approvals for the next twenty years. We encourage developers, architects, environmental groups, and residents to review the draft document online and attend the session to contribute to a sustainable and equitable city design.",
+                CreatedAt = currentTime.AddDays(7)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Winter Hours for Parks and Libraries Begin",
+                UpdateCategory = Department.CommunityServices,
+                UpdateMessage =
+                    "The **Community Services Department** announces that the transition to winter operating hours for all municipal parks, public swimming pools, and libraries will take effect on November 1st. All public parks will now close one hour earlier at 6:00 PM daily to coincide with earlier sunsets, and all branch libraries will reduce Saturday hours to 9:00 AM – 1:00 PM. These seasonal adjustments are necessary to ensure the safety of patrons and optimize operational efficiency during the colder months. Detailed, updated schedules for all facilities are posted on the municipal website under the 'Community Services' section. We thank the community for their understanding and encourage residents to continue utilizing our facilities during the revised hours.",
+                CreatedAt = currentTime.AddDays(-10)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Rates & Tariffs Due Date Extension: October",
+                UpdateCategory = Department.FinanceAndRevenue,
+                UpdateMessage =
+                    "The **Finance and Revenue Department** has approved a **five-day extension** for the payment of all municipal rates, taxes, and service tariffs originally due on October 31st. The new deadline is now Monday, November 5th. This extension is being granted due to recent technical difficulties experienced by the online payment portal. We apologize for the inconvenience and hope this grace period assists residents and businesses in meeting their obligations without penalty. Please note that this extension applies only to the October cycle. Payments can still be made in person at any municipal service center or via the updated online portal, which is now fully operational. The **Finance and Revenue Department** remains committed to efficient and transparent revenue collection to fund all essential services.",
+                CreatedAt = currentTime.AddDays(-4)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Road Resurfacing Project: Phase 3 Begins in Southern Sector",
+                UpdateCategory = Department.RoadsAndStormwater,
+                UpdateMessage =
+                    "Heads up, Southern Sector residents! Phase 3 of the municipal road resurfacing project is set to begin next Monday, October 28th, focusing on the entirety of Acacia Drive. The **Roads and Stormwater Department** estimates that this phase, which includes full excavation, base repair, and new asphalt laying, will take approximately three weeks to complete, weather permitting. Temporary road closures and detours will be clearly marked, and no street parking will be allowed during working hours (7:00 AM to 5:00 PM). This work is crucial for improving driving safety and extending the lifespan of our essential infrastructure. We appreciate your patience and cooperation as the **Roads and Stormwater Department** works efficiently to complete this vital upgrade to the community’s transportation network.",
+                CreatedAt = currentTime.AddDays(13)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Mandatory Level 1 Water Restrictions Effective Immediately",
+                UpdateCategory = Department.WaterAndSanitation,
+                UpdateMessage =
+                    "Due to consistently low reservoir levels following the dry season, the **Water and Sanitation Department** is enacting **Mandatory Level 1 Water Restrictions**, effective immediately. Residents are prohibited from watering gardens and lawns between 6:00 AM and 6:00 PM and are restricted to using only hand-held hoses or buckets for outdoor washing. Commercial car washes, golf courses, and industrial users must reduce consumption by 10%. These measures are necessary to safeguard our strategic water reserves and prevent the need for more drastic restrictions later in the year. The **Water and Sanitation Department** urges all citizens to adhere strictly to these rules. Fines will be issued for non-compliance. We thank the public for their sacrifice and partnership in preserving our precious water resources.",
+                CreatedAt = currentTime.AddHours(-1)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Illegal Connections Warning and Amnesty Period",
+                UpdateCategory = Department.Energy,
+                UpdateMessage =
+                    "The **Energy Department** is issuing a final warning regarding the dangers and illegality of unauthorized electrical connections. These connections cause significant load instability, lead to frequent outages, and pose extreme fire and electrocution hazards to the community. However, the Department is simultaneously announcing a **30-day amnesty period** starting today. During this time, residents can report and regularize illegal connections without facing immediate legal action or heavy fines. Our technical team will safely disconnect the illegal connections and advise on the proper, legal procedures for acquiring service. After this period, the **Energy Department** will launch aggressive auditing and prosecution measures. Please use this opportunity to protect your neighborhood and ensure legal access to electricity.",
+                CreatedAt = currentTime.AddDays(-7)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Bridge Safety Inspection and Temporary Closure",
+                UpdateCategory = Department.RoadsAndStormwater,
+                IsEvent = true, // Treated as a scheduled closure/event
+                UpdateMessage =
+                    "A vital **Structural Safety Inspection** is scheduled for the Riverbank Bridge connecting the Northern and Western districts next Saturday, October 26th, from 6:00 AM to 12:00 PM. The **Roads and Stormwater Department** requires a complete temporary closure of the bridge for both vehicles and pedestrians to allow engineers to use sensitive sonic equipment and conduct a detailed assessment of its structural integrity. This proactive maintenance ensures the bridge remains safe and fully compliant with national safety standards. Detour routes via the Ring Road will be clearly marked. Please adjust your travel plans to avoid this area during the inspection period. The **Roads and Stormwater Department** apologizes for the inconvenience but prioritizes public safety and the long-term viability of our critical transport infrastructure.",
+                CreatedAt = currentTime.AddDays(11)
+            },
+            new LocalUpdate {
+                UpdateHeading = "Hazardous Waste Drop-Off Day",
+                UpdateCategory = Department.WasteManagement,
+                IsEvent = true,
+                UpdateMessage =
+                    "The **Waste Management Department** is hosting its quarterly **Hazardous Waste Drop-Off Day** this Saturday, October 19th, from 9:00 AM to 3:00 PM at the Municipal Depot (Entrance B). This is a safe and legal way for residents to dispose of materials that cannot go into general waste, including old paint, solvents, oil, expired medicines, batteries, and fluorescent tubes. Trained staff will be on hand to ensure proper segregation and environmentally responsible disposal. Please do not bring commercial or industrial waste. This free service is a key initiative to prevent environmental pollution and protect the health of our water table. Join the **Waste Management Department** in making a responsible choice for our environment. Identification proving municipal residency will be required.",
+                CreatedAt = currentTime.AddDays(4)
             }
         };
 

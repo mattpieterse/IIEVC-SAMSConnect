@@ -14,11 +14,15 @@ namespace SAMS.Connect.MVVM.ViewModels;
 public sealed partial class EventViewModel
     : ObservableObject
 {
-#region Variables
+#region Lifecycle
 
     private readonly NavigationService _navigationService;
     private readonly UpdateStore _context;
 
+
+    /// <summary>
+    /// Standard class constructor.
+    /// </summary>
     public EventViewModel(
         NavigationService navigationService,
         UpdateStore context
@@ -26,11 +30,23 @@ public sealed partial class EventViewModel
         _context = context;
         _navigationService = navigationService;
 
-        Filter.PropertyChanged += (_, _) => ApplyFilters();
+        Filter.PropertyChanged += (_, e) => {
+            ApplyFilters();
+            if (e.PropertyName == nameof(LocalUpdateFilter.Department)) {
+                ClearFilterCategoryCommand.NotifyCanExecuteChanged();
+                if (Filter.Department is not null) {
+                    _context.LogCategoryFilterUsage((Department) Filter.Department);
+                }
+            }
+        };
 
         _context.Seed();
         ApplyFilters();
     }
+
+#endregion
+
+#region Variables
 
     private readonly LocalUpdateFilter _filter = new();
     public LocalUpdateFilter Filter => _filter;
@@ -38,45 +54,6 @@ public sealed partial class EventViewModel
 
     [ObservableProperty]
     private ObservableCollection<LocalUpdateWrapper> _collection = [];
-
-//    public DateOnly? FilterDateStart
-//    {
-//        get => _filter.DateStart.HasValue ? DateOnly.FromDateTime(_filter.DateStart.Value) : null;
-//        set {
-//            _filter.DateStart = value?.ToDateTime(TimeOnly.MinValue);
-//            OnPropertyChanged(nameof(Collection));
-//            ApplyFilters();
-//        }
-//    }
-//
-//    public DateOnly? FilterDateFinal
-//    {
-//        get => _filter.DateFinal.HasValue ? DateOnly.FromDateTime(_filter.DateFinal.Value) : null;
-//        set {
-//            _filter.DateFinal = value?.ToDateTime(TimeOnly.MaxValue);
-//            OnPropertyChanged(nameof(Collection));
-//            ApplyFilters();
-//        }
-//    }
-//
-//    public Department? SelectedDepartment
-//    {
-//        get => _filter.Department;
-//        set {
-//            if (_filter.Department == value) {
-//                return;
-//            }
-//
-//            _filter.Department = value;
-//            if (value.HasValue) {
-//                _context.LogCategoryFilterUsage(value.Value);
-//            }
-//
-//            OnPropertyChanged();
-//            ClearFilterCategoryCommand.NotifyCanExecuteChanged();
-//            ApplyFilters();
-//        }
-//    }
 
 
     public static ObservableCollection<Department> DepartmentOptions

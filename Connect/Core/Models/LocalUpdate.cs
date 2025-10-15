@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SAMS.Connect.Core.Models;
@@ -45,6 +46,23 @@ public sealed partial class LocalUpdate
     public string UpdatedAtFormatted =>
         $"{UpdatedAt:dd MMMM yyyy} • {UpdatedAt:HH:mm}";
 
+
+    public string CategoryFormatted
+    {
+        get {
+            if (UpdateCategory is not { } category) {
+                return "Unspecified";
+            }
+
+            var categoryName = category.ToString();
+            var readableString = categoryName.All(char.IsUpper)
+                ? string.Join(" ", categoryName.ToCharArray())
+                : WhereCaseChanges().Replace(categoryName, "$1 $2");
+
+            return $"Department of {readableString}";
+        }
+    }
+
 #endregion
 
 #region Constructors
@@ -70,5 +88,14 @@ public sealed partial class LocalUpdate
         _isEvent = isEvent;
     }
 
-#endregion
+
+    /// <summary>
+    /// Regex pattern to match string coordinates where lowercase letters
+    /// immediately precede an uppercase letter. This effectively targets Enum
+    /// names following C# conventions for readable spacing applications.
+    /// </summary>
+    [GeneratedRegex("([a-z])([A-Z])")]
+    private static partial Regex WhereCaseChanges();
+
+    #endregion
 }

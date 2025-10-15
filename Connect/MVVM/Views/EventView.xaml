@@ -67,7 +67,7 @@
                 Grid.Row = "1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
-                        Width = "260" />
+                        Width = "280" />
                     <ColumnDefinition
                         Width = "24" />
                     <ColumnDefinition
@@ -85,8 +85,9 @@
                     <StackPanel
                         Orientation = "Vertical">
                         <Label
-                            Content = "Search between dates" />
+                            Content = "Search within date range" />
                         <DatePicker
+                            ToolTipService.ToolTip = "From date"
                             SelectedDate = "{Binding Filter.DateStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             IsTodayHighlighted = "True"
                             FirstDayOfWeek = "Monday" />
@@ -96,6 +97,7 @@
                             Width = "0" />
 
                         <DatePicker
+                            ToolTipService.ToolTip = "To date"
                             SelectedDate = "{Binding Filter.DateFinal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             IsTodayHighlighted = "True"
                             FirstDayOfWeek = "Monday" />
@@ -209,12 +211,38 @@
                                         Grid.ColumnSpan = "2"
                                         Orientation = "Vertical"
                                         Margin = "0,4,8,4">
-                                        <ui:TextBlock
-                                            FontSize = "13"
-                                            FontStyle = "Italic"
-                                            Text = "{Binding Instance.UpdateCategory, Mode=OneWay}"
-                                            TextWrapping = "NoWrap"
-                                            TextTrimming = "CharacterEllipsis" />
+                                        <StackPanel
+                                            Orientation = "Horizontal">
+                                            <ui:SymbolIcon
+                                                Symbol = "PersonAlert24"
+                                                FontSize = "13"
+                                                VerticalAlignment = "Center"
+                                                Margin = "0,0,4,0">
+                                                <ui:SymbolIcon.Style>
+                                                    <Style
+                                                        TargetType = "ui:SymbolIcon">
+                                                        <Setter
+                                                            Property = "Visibility"
+                                                            Value = "Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger
+                                                                Binding = "{Binding IsRecommended}"
+                                                                Value = "True">
+                                                                <Setter
+                                                                    Property = "Visibility"
+                                                                    Value = "Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ui:SymbolIcon.Style>
+                                            </ui:SymbolIcon>
+                                            <ui:TextBlock
+                                                FontSize = "13"
+                                                FontStyle = "Italic"
+                                                Text = "{Binding Instance.CategoryFormatted, Mode=OneWay}"
+                                                TextWrapping = "NoWrap"
+                                                TextTrimming = "CharacterEllipsis" />
+                                        </StackPanel>
 
                                         <Separator
                                             Margin = "0,3"
